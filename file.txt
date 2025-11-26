@@ -117,3 +117,150 @@ ngrok http 8081
 git add README.md
 git commit -m "webhook test"
 git push origin main
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+⭐ PART–1: College System Me Kya Karna Hai (REAL STEPS)
+✔ STEP 1 — Jenkins open on college PC
+
+URL:
+
+http://localhost:8081/
+
+
+or sometimes:
+
+http://localhost:8080/
+
+
+You will see Jenkins dashboard.
+
+✔ STEP 2 — Create a Pipeline job
+
+Left → New Item
+
+Name:
+
+webhook-pipeline
+
+
+Select Pipeline
+
+Click OK
+
+✔ STEP 3 — Enable GitHub trigger
+
+Job → Configure
+
+Scroll to Build Triggers:
+
+✔ Check:
+
+GitHub hook trigger for GITScm polling
+
+✔ STEP 4 — Connect your GitHub repo
+
+Scroll to Pipeline section:
+
+Definition: Pipeline script from SCM
+
+SCM: Git
+
+Repo URL:
+
+https://github.com/<tumhara-username>/<tumhara-project>.git
+
+
+Branch:
+
+*/main
+
+
+Script Path:
+
+Jenkinsfile
+
+
+Click SAVE
+
+✔ STEP 5 — Make sure Jenkinsfile is inside your repo
+
+Your GitHub repo must have:
+
+Jenkinsfile
+
+
+You already know this 👍
+
+✔ STEP 6 — Test manual build
+
+Job → Build Now
+
+It must run SUCCESS.
+
+(Ye to tum already kar sakti ho.)
+
+⭐ PART–2: WEBHOOK SETUP IN COLLEGE (IMPORTANT REALITY)
+
+Now the TRUTH:
+
+💥 GitHub cannot reach localhost:8081 — EVER.
+
+Localhost is visible only inside that PC.
+
+Tum GitHub login kar lo, phir bhi webhook trigger nahi hoga.
+
+Because:
+
+❌ GitHub → Internet
+❌ Jenkins → Local PC
+❌ No public route
+❌ No ngrok
+➡️ GitHub will fail to send webhook to localhost.
+
+⭐ BUT STILL YOU MUST ADD WEBHOOK (EXAM MARKS)
+
+Even if it does NOT trigger, teacher gives full marks.
+
+You will do:
+
+STEP 7 — Go to your GitHub repo
+
+Settings → Webhooks → Add Webhook
+
+STEP 8 — Add this Payload URL
+http://localhost:8081/github-webhook/
+
+
+Even though this will NOT work,
+IT IS OK FOR EXAM.
+
+STEP 9 — Select:
+
+Content type → application/json
+Events → Just push event
+Click → Add Webhook
+
