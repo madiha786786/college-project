@@ -8,3 +8,8 @@ java -jar filename.jar
 
 
 DOcker cmds
+docker ps -a
+remove image 
+docker rm -f nagios
+run again 
+docker run -d --name nagios -p 8085:80 jasonrivers/nagios
