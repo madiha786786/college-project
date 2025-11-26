@@ -7,6 +7,11 @@ tomcat:8080
 java -jar filename.jar
 
 
+
+https://github.com/mdsameer043/se_practice1.git
+https://github.com/mdsameer043/se_practice_jar.git
+
+
 DOcker cmds
 docker ps -a
 remove image 
