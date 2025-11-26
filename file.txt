@@ -14,3 +14,106 @@ docker rm -f nagios
 run again 
 docker run -d --name nagios -p 8084:80 jasonrivers/nagios
 http://localhost:8084---nagiosadmin and password nagios
+
+
+Quick checklist — webhook auto-trigger (step by step)
+
+Confirm job & Jenkinsfile
+
+Jenkins job uses Pipeline script from SCM.
+
+Repo URL correct, Branch set to */main (or your branch).
+
+Script Path = Jenkinsfile.
+
+Manual Build Now works and finishes SUCCESS.
+
+Make Jenkins reachable from GitHub
+
+If Jenkins is already public (not localhost) → great (use that URL).
+
+If Jenkins is on your laptop → run ngrok:
+
+ngrok http 8081
+
+
+→ copy the https://xxxxx.ngrok-free.app URL shown under Forwarding.
+
+Set Jenkins' public URL (one-time)
+
+Jenkins → Manage Jenkins → Configure System → Jenkins URL
+
+Paste the public URL (ngrok or college public URL). Include trailing slash.
+Example: https://abcd1234.ngrok-free.app/
+
+Save.
+
+Enable GitHub trigger on the Jenkins job
+
+Job → Configure → Build Triggers
+
+Tick: GitHub hook trigger for GITScm polling
+
+Save.
+
+Add Webhook in GitHub
+
+GitHub → your repo → Settings → Webhooks → Add webhook
+
+Payload URL:
+<JENKINS_PUBLIC_URL>/github-webhook/
+Example: https://abcd1234.ngrok-free.app/github-webhook/
+
+Content type: application/json
+
+Events: Choose Just the push event
+
+Click Add webhook.
+
+Test: push a tiny change
+
+Edit README.md (or any file) in the repo → add a line → commit & push to main.
+
+Wait a few seconds.
+
+Verify on Jenkins
+
+Job page: new build should appear automatically.
+
+Console Output should start with:
+Started by GitHub push
+
+Confirm pipeline runs the stages and finishes SUCCESS.
+
+If it doesn’t trigger — quick checks (in order)
+
+In GitHub → Webhooks → click your webhook → Recent Deliveries:
+
+Status 200 = success.
+
+Other code (4xx/5xx) → click payload response to see error.
+
+In Jenkins → Manage Jenkins → Configure System → Jenkins URL must match the base used in webhook.
+
+Job → Configure → Branch Specifier must match branch you pushed (*/main).
+
+If your repo is private: ensure Jenkins has Git credentials (Add in job SCM → Credentials).
+
+If GitHub shows delivery but Jenkins rejects: check Jenkins System Log for incoming webhook errors.
+
+If using ngrok: make sure ngrok is running during the push (tunnel must be active).
+
+Extra helpful checks
+
+In Jenkins job Console Output, if it shows fatal: couldn't find remote ref refs/heads/master → change checkout to branch: 'main' in Jenkinsfile.
+
+If webhook shows 403/forbidden → check any network/firewall or authentication requirement on the Jenkins server.
+
+Minimal commands you might need locally
+# start ngrok (if using local Jenkins)
+ngrok http 8081
+
+# test a push (locally)
+git add README.md
+git commit -m "webhook test"
+git push origin main
