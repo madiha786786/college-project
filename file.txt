@@ -12,4 +12,5 @@ docker ps -a
 remove image 
 docker rm -f nagios
 run again 
-docker run -d --name nagios -p 8085:80 jasonrivers/nagios
+docker run -d --name nagios -p 8084:80 jasonrivers/nagios
+http://localhost:8084---nagiosadmin and password nagios
