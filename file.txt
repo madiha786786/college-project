@@ -1,0 +1,10 @@
+docker id:
+madiha511
+madiha123
+jenkins:localhost:8081
+tomcat:8080
+.........jarfile
+java -jar filename.jar
+
+
+DOcker cmds
